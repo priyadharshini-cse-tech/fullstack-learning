@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>She Safe</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3, #a18cd1);
+    color: white;
+}
+
+/* HEADER */
+.header {
+    text-align: center;
+    padding: 20px;
+}
+
+/* GRID */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 15px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* IMAGE */
+.card img {
+    width: 100%;
+    height: 160px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+/* SAFE TEXT */
+.safe {
+    color: #00ffcc;
+    font-weight: bold;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #ff1e6b;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.no-data {
+    text-align: center;
+    margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>💖 She Safe</h1>
+<p id="cityName"></p>
+</div>
+
+<div class="container" id="list"></div>
+
+<script>
+
+let city = localStorage.getItem("city");
+
+if(!city){
+    window.location.href = "index.html";
+}
+
+document.getElementById("cityName").innerText =
+"Showing hostels in " + city.toUpperCase();
+
+// IMAGES
+const images = [
+"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2",
+"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b",
+"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85"
+];
+
+// DATA (WITH PHONE NUMBERS)
+const hostels = [
+{ name:"Sakthi Hostel", city:"anna nagar", price:"₹5000", phone:"9876543210", rating:"4.5⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Green Stay", city:"anna nagar", price:"₹4500", phone:"9876543211", rating:"4.3⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Anbu Hostel", city:"anna nagar", price:"₹4800", phone:"9876543212", rating:"4.2⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+
+{ name:"Royal Stay", city:"kk nagar", price:"₹4200", phone:"9876543213", rating:"4.3⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Comfort Stay", city:"kk nagar", price:"₹4100", phone:"9876543214", rating:"4.1⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"KK Hostel", city:"kk nagar", price:"₹4000", phone:"9876543215", rating:"4.0⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+
+{ name:"Queen Hostel", city:"thirunagar", price:"₹4200", phone:"9876543216", rating:"4.0⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"Happy Stay", city:"thirunagar", price:"₹4600", phone:"9876543217", rating:"4.4⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Safe Home", city:"thirunagar", price:"₹4300", phone:"9876543218", rating:"4.2⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+
+{ name:"Gori Hostel", city:"goripalayam", price:"₹4800", phone:"9876543219", rating:"4.3⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"City Comfort", city:"goripalayam", price:"₹4400", phone:"9876543220", rating:"4.1⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"Urban Stay", city:"goripalayam", price:"₹4500", phone:"9876543221", rating:"4.2⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+
+{ name:"Mattu Hostel", city:"mattuthavani", price:"₹3900", phone:"9876543222", rating:"4.1⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"Elite Stay", city:"mattuthavani", price:"₹4200", phone:"9876543223", rating:"4.3⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Bus Stand Stay", city:"mattuthavani", price:"₹4100", phone:"9876543224", rating:"4.0⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+
+{ name:"Arappalayam Stay", city:"arappalayam", price:"₹4200", phone:"9876543225", rating:"4.0⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"River View", city:"arappalayam", price:"₹4400", phone:"9876543226", rating:"4.2⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Classic Stay", city:"arappalayam", price:"₹4300", phone:"9876543227", rating:"4.1⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+
+{ name:"Tallakulam Hostel", city:"tallakulam", price:"₹4700", phone:"9876543228", rating:"4.5⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Lake View", city:"tallakulam", price:"₹4600", phone:"9876543229", rating:"4.4⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Smart Stay", city:"tallakulam", price:"₹4400", phone:"9876543230", rating:"4.2⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+
+{ name:"Simmakkal Hostel", city:"simmakkal", price:"₹4300", phone:"9876543231", rating:"4.2⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"Temple Stay", city:"simmakkal", price:"₹4200", phone:"9876543232", rating:"4.1⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"Central Hostel", city:"simmakkal", price:"₹4400", phone:"9876543233", rating:"4.3⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+
+{ name:"Bypass Stay", city:"bypass road", price:"₹4000", phone:"9876543234", rating:"4.0⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"Highway Hostel", city:"bypass road", price:"₹4200", phone:"9876543235", rating:"4.2⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Transit Stay", city:"bypass road", price:"₹4100", phone:"9876543236", rating:"4.1⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+
+{ name:"Periyar Hostel", city:"periyar", price:"₹4200", phone:"9876543237", rating:"4.3⭐", cctv:"Yes", food:"Yes", ac:"AC" },
+{ name:"Market Stay", city:"periyar", price:"₹4100", phone:"9876543238", rating:"4.1⭐", cctv:"Yes", food:"Yes", ac:"Non-AC" },
+{ name:"Prime Hostel", city:"periyar", price:"₹4300", phone:"9876543239", rating:"4.4⭐", cctv:"Yes", food:"Yes", ac:"AC" }
+];
+
+// FILTER
+let filtered = hostels.filter(h => h.city === city);
+
+// DISPLAY
+let container = document.getElementById("list");
+
+if(filtered.length === 0){
+    container.innerHTML = "<div class='no-data'>No hostels found 😢</div>";
+}
+
+filtered.forEach((h, index) => {
+
+let div = document.createElement("div");
+div.className = "card";
+
+div.innerHTML = `
+<img src="${images[index % images.length]}">
+<h3>${h.name}</h3>
+<p class="safe">✔ Safe Hostel</p>
+<p>📍 ${h.city}</p>
+<p>💰 ${h.price}</p>
+<p>📞 ${h.phone}</p>
+<p>⭐ ${h.rating}</p>
+<p>📹 CCTV: ${h.cctv}</p>
+<p>🍽️ Food: ${h.food}</p>
+<p>❄️ ${h.ac}</p>
+<button onclick="book('${h.name}')">Book Now</button>
+`;
+
+container.appendChild(div);
+});
+
+function book(name){
+    alert("Booking requested for " + name);
+}
+
+</script>
+
+</body>
+</html>

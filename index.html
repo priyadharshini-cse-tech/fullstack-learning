@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>She Safe</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+
+    /* SAME PROFESSIONAL BACKGROUND */
+    background: linear-gradient(135deg, #ff758c, #ff7eb3, #a18cd1);
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* FORM CARD */
+.box {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+    width: 320px;
+    text-align: center;
+    color: white;
+}
+
+/* TITLE */
+h1 {
+    margin-bottom: 10px;
+}
+
+/* INPUTS */
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #ff1e6b;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff0055;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h1>💖 She Safe</h1>
+<p>Find Safe Hostels Easily</p>
+
+<input type="text" placeholder="Your Name">
+<input type="text" placeholder="Mobile Number">
+
+<select id="city">
+<option value="">Select Area (Madurai)</option>
+<option>Anna Nagar</option>
+<option>KK Nagar</option>
+<option>Thirunagar</option>
+<option>Goripalayam</option>
+<option>Mattuthavani</option>
+<option>Arappalayam</option>
+<option>Tallakulam</option>
+<option>Simmakkal</option>
+<option>Bypass Road</option>
+<option>Periyar</option>
+</select>
+
+<input type="text" placeholder="Purpose (Study / Work)">
+
+<button onclick="goNext()">🔍 Find Safe Hostel</button>
+</div>
+
+<script>
+function goNext(){
+
+let city = document.getElementById("city").value;
+
+if(city === ""){
+    alert("Please select area!");
+    return;
+}
+
+// IMPORTANT
+localStorage.setItem("city", city.toLowerCase().trim());
+
+window.location.href = "results.html";
+}
+</script>
+
+</body>
+</html>
